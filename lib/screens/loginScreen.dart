@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:maverickapp/screens/homeScreen.dart';
 import 'package:maverickapp/services/AutenticacionService.dart';
-import 'package:maverickapp/widgets/Tarjeta.dart';
+import 'package:maverickapp/widgets/TarjetaError.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -140,7 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
           if (_mostrarTarjeta)
             Container(
               color: Colors.black54,
-              child: Tarjeta(
+              child: TarjetaError(
                 titulo: "No se inicio sesion.",
                 mensaje: _mensaje ?? "Error desconocido.",
                 onCerrar: () {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maverickapp/screens/dashboardScreen.dart';
 import 'LoginScreen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -11,9 +12,9 @@ class _HomeScreenState extends State<HomeScreen> {
   int _indiceActual = 0;
 
   final List<Widget> _vistas = [
+    const Dashboardscreen(),
     const Center(child: Text("Productos", style: TextStyle(fontSize: 24))),
     const Center(child: Text("Ventas", style: TextStyle(fontSize: 24))),
-    const Center(child: Text("Usuarios", style: TextStyle(fontSize: 24))),
     const Center(
       child: Text("Ordenes de compra", style: TextStyle(fontSize: 24)),
     ),
@@ -49,10 +50,11 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
 
       //Est cambia entre las pantallas
-      body: _vistas[_indiceActual],
+      body: IndexedStack(index: _indiceActual, children: _vistas),
 
       //Menu inferior para cambiar entre pantallas
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         currentIndex: _indiceActual,
         selectedItemColor: Colors.lightBlue,
         unselectedItemColor: Colors.grey,

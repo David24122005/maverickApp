@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class Tarjeta extends StatelessWidget {
+class TarjetaError extends StatelessWidget {
   final String titulo;
   final String mensaje;
   final VoidCallback onCerrar; // Función para ocultar el error
 
-  const Tarjeta({
+  const TarjetaError({
     super.key,
     required this.titulo,
     required this.mensaje,
