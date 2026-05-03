@@ -7,7 +7,7 @@ class RespuestaApi<T> {
 
   factory RespuestaApi.fromJson(
     Map<String, dynamic> json,
-    T Function(Map<String, dynamic>) fromJsonT,
+    T Function(dynamic) fromJsonT, // <-- Cambiar Map<String, dynamic> por dynamic
   ) {
     return RespuestaApi<T>(
       exito: json["exito"] ?? json["Exito"] ?? false,

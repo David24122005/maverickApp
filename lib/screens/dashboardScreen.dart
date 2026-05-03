@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:maverickapp/models/Kpis/dashboardKpi.dart';
+import 'package:maverickapp/models/Kpis/kpiItem.dart';
 import 'package:maverickapp/services/kpiService.dart';
+import 'package:maverickapp/widgets/KpiCard.dart';
 
-class Dashboardscreen extends StatefulWidget {
-  const Dashboardscreen({Key? key}) : super(key: key);
+class DashboardScreen extends StatefulWidget {
+  const DashboardScreen({Key? key}) : super(key: key);
 
   @override
   _DashboardScreenState createState() => _DashboardScreenState();
 }
 
-class _DashboardScreenState extends State<Dashboardscreen> {
+class _DashboardScreenState extends State<DashboardScreen> {
   final Kpiservice _kpiservice = Kpiservice();
   DashboardKpi? _dashboardData;
   bool _isLoading = true;
@@ -49,12 +51,11 @@ class _DashboardScreenState extends State<Dashboardscreen> {
     }
   }
 
-  // Método para convertir DashboardKpi en una lista de KPIs para mostrar
-  List<_KpiItem> _getKpiItems() {
+  List<KpiItem> _getKpiItems() {
     if (_dashboardData == null) return [];
 
     return [
-      _KpiItem(
+      KpiItem(
         title: 'Ventas Hoy',
         value: _dashboardData!.ventasHoy?.toString() ?? '0',
         subtitle:
@@ -62,7 +63,7 @@ class _DashboardScreenState extends State<Dashboardscreen> {
         icon: Icons.trending_up,
         color: Colors.green,
       ),
-      _KpiItem(
+      KpiItem(
         title: 'Ventas del Mes',
         value: _dashboardData!.ventasMes?.toString() ?? '0',
         subtitle:
@@ -70,7 +71,7 @@ class _DashboardScreenState extends State<Dashboardscreen> {
         icon: Icons.calendar_month,
         color: Colors.blue,
       ),
-      _KpiItem(
+      KpiItem(
         title: 'Valor Inventario',
         value:
             '\$${_dashboardData!.valorInventario?.toStringAsFixed(2) ?? '0.00'}',
@@ -78,7 +79,7 @@ class _DashboardScreenState extends State<Dashboardscreen> {
         icon: Icons.inventory,
         color: Colors.orange,
       ),
-      _KpiItem(
+      KpiItem(
         title: 'Órdenes Pendientes',
         value: _dashboardData!.ordenesPendientes?.toString() ?? '0',
         subtitle:
@@ -154,101 +155,22 @@ class _DashboardScreenState extends State<Dashboardscreen> {
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 4,
             childAspectRatio: 1,
-            crossAxisSpacing: 12,
+            crossAxisSpacing: 12  ,
             mainAxisSpacing: 12,
           ),
           itemCount: kpiItems.length,
-          itemBuilder: (context, index) => _buildKpiCard(kpiItems[index]),
+          itemBuilder: (context, index) {
+            final item = kpiItems[index];
+            return Kpicard(
+              item.title,
+              item.value,
+              item.subtitle,
+              item.icon,
+              item.color,
+            );
+          },
         ),
       ),
     );
   }
-
-  Widget _buildKpiCard(_KpiItem item) {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(12),
-        onTap: () {
-          // Aquí puedes agregar navegación o acciones al tocar un KPI
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('${item.title}: ${item.value}'),
-              duration: Duration(seconds: 1),
-            ),
-          );
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: item.color.withOpacity(0.1),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(item.icon, size: 32, color: item.color),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                item.title,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.grey,
-                ),
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const SizedBox(height: 8),
-              Flexible(
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    item.value,
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: item.color,
-                    ),
-                  ),
-                ),
-              ),
-              if (item.subtitle != null) ...[
-                const SizedBox(height: 4),
-                Text(
-                  item.subtitle!,
-                  style: const TextStyle(fontSize: 12, color: Colors.grey),
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// Clase auxiliar para los items KPI
-class _KpiItem {
-  final String title;
-  final String value;
-  final String? subtitle;
-  final IconData icon;
-  final Color color;
-
-  _KpiItem({
-    required this.title,
-    required this.value,
-    this.subtitle,
-    required this.icon,
-    required this.color,
-  });
 }

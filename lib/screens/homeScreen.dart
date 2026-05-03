@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:maverickapp/screens/dashboardScreen.dart';
+import 'package:maverickapp/screens/ventaScreen.dart';
 import 'LoginScreen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -12,9 +13,9 @@ class _HomeScreenState extends State<HomeScreen> {
   int _indiceActual = 0;
 
   final List<Widget> _vistas = [
-    const Dashboardscreen(),
+    const DashboardScreen(),
     const Center(child: Text("Productos", style: TextStyle(fontSize: 24))),
-    const Center(child: Text("Ventas", style: TextStyle(fontSize: 24))),
+    const VentaScreen(),
     const Center(
       child: Text("Ordenes de compra", style: TextStyle(fontSize: 24)),
     ),
@@ -71,11 +72,11 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.newspaper_rounded),
-            label: "Ventas",
+            label: "Productos",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.storage_rounded),
-            label: "Productos",
+            label: "Ventas",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_cart),
